@@ -41,8 +41,8 @@ enum keycodes {
 #undef MOD_TAP_KEY
 };
 
-#define LOWER MO(_LOWER)
-#define RAISE MO(_RAISE)
+#define LOWER LT(_LOWER, KC_ESC)
+#define RAISE LT(_RAISE, KC_ENT)
 #define TOP MO(_TOP)
 #define BOTTOM MO(_BOTTOM)
 #define LANG  TG(_DVORAK)
@@ -94,11 +94,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_DVORAK] = LAYOUT_planck_grid(
     _______, KC_QUOT, KC_COMM, KC_DOT,  KC_P,    KC_Y,    KC_F,    KC_G,     KC_C,    KC_R,    KC_L,    _______,
-    _______, A_ALT,   O_GUI,   E_SFT,   U_CTRL,  KC_I,    KC_D,    H_CTRL,   T_SFT,   N_GUI,   S_ALT,   _______,
-    _______, KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,     KC_W,    KC_V,    KC_Z,    _______,
-    _______,  _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    _______, A_ALT,   O_GUI,   E_SFT,   U_CTRL,  KC_I,    KC_D,    H_CTRL,   T_SFT,   N_GUI,  S_ALT,   _______,
+    _______, KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,     KC_W,    KC_V,   KC_Z,    _______,
+    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
-
 
 /* Lower
  * ,-----------------------------------------------------------------------------------.
@@ -429,9 +428,9 @@ combo_t key_combos[] = {
     [RU_COMBO] = COMBO(ru_combo, RUS_LANG),
     [EN_COMBO] = COMBO(en_combo, EN_LANG),
     [HEB_COMBO] = COMBO(heb_combo, HEB_LANG),
-    [ESC_COMBO] = COMBO(esc_combo, KC_ESC),
+    // [ESC_COMBO] = COMBO(esc_combo, KC_ESC),
     [TAB_COMBO] = COMBO(tab_combo, KC_TAB),
-    [ENT_COMBO] = COMBO(ent_combo, KC_ENT),
+    // [ENT_COMBO] = COMBO(ent_combo, KC_ENT),
     [DEL_COMBO] = COMBO(del_combo, KC_DEL),
     [BSPC_COMBO] = COMBO(bspc_combo, KC_BSPC),
     [SAVE_COMBO] = COMBO(save_combo, VIM_SAVE),
@@ -440,9 +439,9 @@ combo_t key_combos[] = {
     [RUQ_COMBO] = COMBO(ruq_combo, RUS_LANG),
     [ENQ_COMBO] = COMBO(enq_combo, EN_LANG),
     [HEBQ_COMBO] = COMBO(hebq_combo, HEB_LANG),
-    [ESCQ_COMBO] = COMBO(escq_combo, KC_ESC),
+    // [ESCQ_COMBO] = COMBO(escq_combo, KC_ESC),
     [TABQ_COMBO] = COMBO(tabq_combo, KC_TAB),
-    [ENTQ_COMBO] = COMBO(entq_combo, KC_ENT),
+    // [ENTQ_COMBO] = COMBO(entq_combo, KC_ENT),
     [DELQ_COMBO] = COMBO(delq_combo, KC_DEL),
     [BSPCQ_COMBO] = COMBO(bspcq_combo, KC_BSPC),
     [SAVEQ_COMBO] = COMBO(saveq_combo, VIM_SAVE),
