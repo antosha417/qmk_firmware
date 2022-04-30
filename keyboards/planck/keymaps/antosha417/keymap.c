@@ -49,14 +49,21 @@ enum keycodes {
 #define KC_CAD LALT(LCTL(KC_DEL))
 #define KC_CAH LALT(LCTL(KC_HOME))
 
-#define E_SFT LSFT_T(KC_E)
-#define D_SFT LSFT_T(KC_D)
+#define LSFT_SPC LSFT_T(KC_SPC)
+#define RSFT_SPC RSFT_T(KC_SPC)
+
+// #define E_SFT LSFT_T(KC_E)
+// #define D_SFT LSFT_T(KC_D)
+#define E_SFT KC_E
+#define D_SFT KC_D
 #define A_ALT LALT_T(KC_A)
 #define O_GUI LGUI_T(KC_O)
 #define U_CTRL LCTL_T(KC_U)
 
-#define T_SFT RSFT_T(KC_T)
-#define K_SFT RSFT_T(KC_K)
+// #define T_SFT RSFT_T(KC_T)
+// #define K_SFT RSFT_T(KC_K)
+#define T_SFT KC_T
+#define K_SFT KC_K
 #define S_ALT RALT_T(KC_S)
 #define N_GUI RGUI_T(KC_N)
 #define H_CTRL RCTL_T(KC_H)
@@ -78,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
     _______,  A_ALTQ,  S_GUIQ,  D_SFT,   F_CTLQ,  KC_G,    KC_H,    J_CTLQ,  K_SFT,   L_GUIQ,  SCLN_Q,  _______,
     _______,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, _______,
-    _______, _______, _______, BOTTOM,  KC_SPC,  LOWER,   RAISE,   KC_SPC,   TOP,     _______, _______, _______
+    _______, _______, _______,  BOTTOM,  LSFT_SPC, LOWER,   RAISE,  RSFT_SPC, TOP,    _______, _______, _______
 ),
 
 /* Dvorak
