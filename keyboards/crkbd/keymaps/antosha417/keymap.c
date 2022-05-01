@@ -40,8 +40,8 @@ enum keycodes {
 };
 
 
-#define LOWER LT(_LOWER, KC_ESC)
-#define RAISE LT(_RAISE, KC_ENT)
+#define LOWER LT(_LOWER, KC_ENT)
+#define RAISE LT(_RAISE, KC_ESC)
 #define TOP MO(_TOP)
 #define BOTTOM MO(_BOTTOM)
 #define LANG  TG(_DVORAK)
