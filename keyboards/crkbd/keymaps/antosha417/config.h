@@ -31,7 +31,8 @@
     #define RGBLIGHT_VAL_STEP 17
 #endif
 
-#define TAPPING_TERM 200
+#define TAPPING_TERM 150
 #define IGNORE_MOD_TAP_INTERRUPT
+#define RETRO_TAPPING
 #define COMBO_TERM 30
 

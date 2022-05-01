@@ -40,22 +40,29 @@ enum keycodes {
 };
 
 
-#define LOWER MO(_LOWER)
-#define RAISE MO(_RAISE)
+#define LOWER LT(_LOWER, KC_ESC)
+#define RAISE LT(_RAISE, KC_ENT)
 #define TOP MO(_TOP)
 #define BOTTOM MO(_BOTTOM)
 #define LANG  TG(_DVORAK)
 #define KC_CAD LALT(LCTL(KC_DEL))
 #define KC_CAH LALT(LCTL(KC_HOME))
 
-#define E_SFT LSFT_T(KC_E)
-#define D_SFT LSFT_T(KC_D)
+#define LSFT_SP LSFT_T(KC_SPC)
+#define RSFT_SP RSFT_T(KC_SPC)
+
+// #define E_SFT LSFT_T(KC_E)
+// #define D_SFT LSFT_T(KC_D)
+#define E_SFT KC_E
+#define D_SFT KC_D
 #define A_ALT LALT_T(KC_A)
 #define O_GUI LGUI_T(KC_O)
 #define U_CTRL LCTL_T(KC_U)
 
-#define T_SFT RSFT_T(KC_T)
-#define K_SFT RSFT_T(KC_K)
+// #define T_SFT RSFT_T(KC_T)
+// #define K_SFT RSFT_T(KC_K)
+#define T_SFT KC_T
+#define K_SFT KC_K
 #define S_ALT RALT_T(KC_S)
 #define N_GUI RGUI_T(KC_N)
 #define H_CTRL RCTL_T(KC_H)
@@ -71,8 +78,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ENT,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-					BOTTOM,   KC_SPC,   LOWER,      RAISE,  KC_SPC,     TOP
-				    //`--------------------------'  `--------------------------'
+                                         BOTTOM, LSFT_SP,   LOWER,      RAISE, RSFT_SP,     TOP
+                                    //`--------------------------'  `--------------------------'
 ),
 
 [_DVORAK] = LAYOUT_split_3x6_3(
@@ -83,8 +90,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     KC_LSFT, KC_SCLN,    KC_Q,    KC_J,    KC_K,    KC_X,                         KC_B,    KC_M,    KC_W,    KC_V,   KC_Z,  KC_ESC,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-					_______, _______, _______,    _______, _______, _______
-				    //`--------------------------'  `--------------------------'
+                                        _______, _______, _______,    _______, _______, _______
+                                    //`--------------------------'  `--------------------------'
 ),
 
 [_LOWER] = LAYOUT_split_3x6_3(
@@ -95,8 +102,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     _______,  KC_CAD,  KC_CAH, _______,    LANG, _______,                      _______,HEB_LANG, EN_LANG,RUS_LANG, _______, _______,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-					_______, _______, _______,    _______, _______, _______
-				    //`--------------------------'  `--------------------------'
+                                        _______, _______, _______,    _______, _______, _______
+                                    //`--------------------------'  `--------------------------'
                                                         //^^^^^^^
 ),
 
@@ -109,8 +116,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     _______,   KC_F7,   KC_F5,   KC_F3,   KC_F1,   KC_F9,                       KC_F10,   KC_F2,   KC_F4,   KC_F6,   KC_F8, _______,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-					_______, _______, _______,    _______, _______, _______
-				    //`--------------------------'  `--------------------------'
+                                        _______, _______, _______,    _______, _______, _______
+                                    //`--------------------------'  `--------------------------'
                                                                     //^^^^^^^
 ),
 
@@ -122,8 +129,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     _______, _______, _______, KC_DOWN, KC_UP,   _______,                      _______, _______, _______, _______, _______, _______,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-					_______, _______, _______,    _______, _______, _______
-				    //`--------------------------'  `--------------------------'
+                                        _______, _______, _______,    _______, _______, _______
+                                    //`--------------------------'  `--------------------------'
                                                                                       //^^^^^^^
 ),
 
@@ -135,9 +142,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     _______, _______, _______, _______, _______, _______,                      _______, KC_VOLD, KC_VOLU, _______, _______, _______,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-					_______, _______, _______,    _______, _______, _______
-				    //`--------------------------'  `--------------------------'
-                                      //^^^^^^^
+                                        _______, _______, _______,    _______, _______, _______
+                                    //`--------------------------'  `--------------------------'
+                                    //  ^^^^^^^
 )
 
 };
@@ -147,9 +154,9 @@ enum combo_events {
   RU_COMBO,
   EN_COMBO,
   HEB_COMBO,
-  ESC_COMBO,
+  // ESC_COMBO,
   TAB_COMBO,
-  ENT_COMBO,
+  // ENT_COMBO,
   DEL_COMBO,
   SAVE_COMBO,
   BSPC_COMBO,
@@ -159,9 +166,9 @@ enum combo_events {
   RUQ_COMBO,
   ENQ_COMBO,
   HEBQ_COMBO,
-  ESCQ_COMBO,
+  // ESCQ_COMBO,
   TABQ_COMBO,
-  ENTQ_COMBO,
+  // ENTQ_COMBO,
   DELQ_COMBO,
   SAVEQ_COMBO,
   BSPCQ_COMBO,
@@ -197,9 +204,9 @@ combo_t key_combos[] = {
     [RU_COMBO] = COMBO(ru_combo, RUS_LANG),
     [EN_COMBO] = COMBO(en_combo, EN_LANG),
     [HEB_COMBO] = COMBO(heb_combo, HEB_LANG),
-    [ESC_COMBO] = COMBO(esc_combo, KC_ESC),
+    // [ESC_COMBO] = COMBO(esc_combo, KC_ESC),
     [TAB_COMBO] = COMBO(tab_combo, KC_TAB),
-    [ENT_COMBO] = COMBO(ent_combo, KC_ENT),
+    // [ENT_COMBO] = COMBO(ent_combo, KC_ENT),
     [DEL_COMBO] = COMBO(del_combo, KC_DEL),
     [BSPC_COMBO] = COMBO(bspc_combo, KC_BSPC),
     [SAVE_COMBO] = COMBO(save_combo, VIM_SAVE),
@@ -208,15 +215,15 @@ combo_t key_combos[] = {
     [RUQ_COMBO] = COMBO(ruq_combo, RUS_LANG),
     [ENQ_COMBO] = COMBO(enq_combo, EN_LANG),
     [HEBQ_COMBO] = COMBO(hebq_combo, HEB_LANG),
-    [ESCQ_COMBO] = COMBO(escq_combo, KC_ESC),
+    // [ESCQ_COMBO] = COMBO(escq_combo, KC_ESC),
     [TABQ_COMBO] = COMBO(tabq_combo, KC_TAB),
-    [ENTQ_COMBO] = COMBO(entq_combo, KC_ENT),
+    // [ENTQ_COMBO] = COMBO(entq_combo, KC_ENT),
     [DELQ_COMBO] = COMBO(delq_combo, KC_DEL),
     [BSPCQ_COMBO] = COMBO(bspcq_combo, KC_BSPC),
     [SAVEQ_COMBO] = COMBO(saveq_combo, VIM_SAVE),
     [BSPCWQ_COMBO] = COMBO(bspcwq_combo, DELETE_WORD),
 };
- 
+
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
@@ -231,14 +238,14 @@ void oled_render_layer_state(void) {
     switch (get_highest_layer(layer_state|default_layer_state)) {
       case _QWERTY:
         oled_write_ln_P(PSTR("qwerty"), false);
-        break
+        break;
       case _DVORAK:
         oled_write_ln_P(PSTR("dvorak"), false);
         break;
       case _LOWER:
         oled_write_ln_P(PSTR("lower"), false);
         break;
-      case_RAISE:
+      case _RAISE:
         oled_write_ln_P(PSTR("raise"), false);
         break;
       case _TOP:
@@ -353,10 +360,10 @@ bool IS_ ## keycode ## _MOD_ACTIVE = false;
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
   #ifdef OLED_ENABLE
-  if (record->event.pressed) {
-    set_keylog(keycode, record);
-  }
-#endif //OLED_ENABLE
+  // if (record->event.pressed) {
+    // set_keylog(keycode, record);
+  // }
+  #endif //OLED_ENABLE
 
   switch (keycode) {
     CASE_PRESSED(EN_LANG, set_english_language());
