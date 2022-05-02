@@ -7,5 +7,5 @@
   * [string keycodes](https://github.com/qmk/qmk_firmware/blob/master/quantum/send_string_keycodes.h)
 
 # Todo:
-  [ ] sync with corne
+  [ ] sync with corne change os button
 

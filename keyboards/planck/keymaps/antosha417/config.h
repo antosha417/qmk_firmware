@@ -2,10 +2,10 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 #pragma once
 
-#ifdef AUDIO_ENABLE
-    #define STARTUP_SONG SONG(PLANCK_SOUND)
-    // #define STARTUP_SONG SONG(NO_SOUND)
-#endif
+// #ifdef AUDIO_ENABLE
+  // #define STARTUP_SONG SONG(PLANCK_SOUND)
+  // #define STARTUP_SONG SONG(NO_SOUND)
+// #endif
 
 /*
  * MIDI options
@@ -30,6 +30,7 @@
 
 #define TAPPING_TERM 170
 #define IGNORE_MOD_TAP_INTERRUPT
-#define RETRO_TAPPING
+#define RETRO_TAPPING_PER_KEY
+#define PERMISSIVE_HOLD
 #define COMBO_TERM 30
 

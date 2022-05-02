@@ -32,13 +32,7 @@ enum keycodes {
 
   CHNGE_OS,
   DELETE_WORD,
-
-#define MOD_TAP_KEY(keycode, tap_action, mod_on_action, mod_off_action)   \
-  keycode,
-#include "mod_tap_keys.h"
-#undef MOD_TAP_KEY
 };
-
 
 #define LOWER LT(_LOWER, KC_ENT)
 #define RAISE LT(_RAISE, KC_ESC)
@@ -67,6 +61,12 @@ enum keycodes {
 #define N_GUI RGUI_T(KC_N)
 #define H_CTRL RCTL_T(KC_H)
 
+#define F_CTLQ LT(0, KC_F)
+#define S_GUIQ LT(0, KC_S)
+#define L_GUIQ LT(0, KC_L)
+#define J_CTLQ LT(0, KC_J)
+#define A_ALTQ LT(0, KC_A)
+#define SCLN_Q LT(0, KC_SCLN)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -100,7 +100,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
      KC_DEL, KC_LBRC, KC_LCBR, KC_PLUS, KC_LPRN,  KC_EQL,                      KC_ASTR, KC_RPRN, KC_EXLM, KC_RCBR, KC_RBRC, KC_BSPC,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    _______,  KC_CAD,  KC_CAH, _______,    LANG, _______,                      _______,HEB_LANG, EN_LANG,RUS_LANG, _______, _______,
+    _______,  KC_CAD,  KC_CAH, _______,    LANG, _______,                      _______, _______, _______,RUS_LANG, _______, _______,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                         _______, _______, _______,    _______, _______, _______
                                     //`--------------------------'  `--------------------------'
@@ -154,9 +154,7 @@ enum combo_events {
   RU_COMBO,
   EN_COMBO,
   HEB_COMBO,
-  // ESC_COMBO,
   TAB_COMBO,
-  // ENT_COMBO,
   DEL_COMBO,
   SAVE_COMBO,
   BSPC_COMBO,
@@ -166,9 +164,7 @@ enum combo_events {
   RUQ_COMBO,
   ENQ_COMBO,
   HEBQ_COMBO,
-  // ESCQ_COMBO,
   TABQ_COMBO,
-  // ENTQ_COMBO,
   DELQ_COMBO,
   SAVEQ_COMBO,
   BSPCQ_COMBO,
@@ -181,9 +177,7 @@ uint16_t COMBO_LEN = COMBO_LENGTH;
 const uint16_t PROGMEM ru_combo[] = {KC_R, U_CTRL, COMBO_END};
 const uint16_t PROGMEM en_combo[] = {U_CTRL, S_ALT, COMBO_END};
 const uint16_t PROGMEM heb_combo[] = {KC_I, KC_V, COMBO_END};
-const uint16_t PROGMEM esc_combo[] = {H_CTRL, U_CTRL, COMBO_END};
 const uint16_t PROGMEM tab_combo[] = {T_SFT, A_ALT, COMBO_END};
-const uint16_t PROGMEM ent_combo[]= {E_SFT, N_GUI, COMBO_END};
 const uint16_t PROGMEM del_combo[] = {KC_D, E_SFT, COMBO_END};
 const uint16_t PROGMEM bspc_combo[] = {KC_C, H_CTRL, COMBO_END};
 const uint16_t PROGMEM bspcw_combo[] = {N_GUI, U_CTRL, COMBO_END};
@@ -192,9 +186,7 @@ const uint16_t PROGMEM save_combo[] = {O_GUI, H_CTRL, COMBO_END};
 const uint16_t PROGMEM ruq_combo[] = {KC_O, F_CTLQ, COMBO_END};
 const uint16_t PROGMEM enq_combo[] = {F_CTLQ, SCLN_Q, COMBO_END};
 const uint16_t PROGMEM hebq_combo[] = {KC_G, KC_DOT, COMBO_END};
-const uint16_t PROGMEM escq_combo[] = {F_CTLQ, J_CTLQ, COMBO_END};
 const uint16_t PROGMEM tabq_combo[] = {K_SFT, A_ALTQ, COMBO_END};
-const uint16_t PROGMEM entq_combo[] = {D_SFT, L_GUIQ, COMBO_END};
 const uint16_t PROGMEM delq_combo[] = {KC_H, D_SFT, COMBO_END};
 const uint16_t PROGMEM bspcq_combo[] = {KC_I, J_CTLQ, COMBO_END};
 const uint16_t PROGMEM bspcwq_combo[] = {L_GUIQ, F_CTLQ, COMBO_END};
@@ -204,9 +196,7 @@ combo_t key_combos[] = {
     [RU_COMBO] = COMBO(ru_combo, RUS_LANG),
     [EN_COMBO] = COMBO(en_combo, EN_LANG),
     [HEB_COMBO] = COMBO(heb_combo, HEB_LANG),
-    // [ESC_COMBO] = COMBO(esc_combo, KC_ESC),
     [TAB_COMBO] = COMBO(tab_combo, KC_TAB),
-    // [ENT_COMBO] = COMBO(ent_combo, KC_ENT),
     [DEL_COMBO] = COMBO(del_combo, KC_DEL),
     [BSPC_COMBO] = COMBO(bspc_combo, KC_BSPC),
     [SAVE_COMBO] = COMBO(save_combo, VIM_SAVE),
@@ -215,9 +205,7 @@ combo_t key_combos[] = {
     [RUQ_COMBO] = COMBO(ruq_combo, RUS_LANG),
     [ENQ_COMBO] = COMBO(enq_combo, EN_LANG),
     [HEBQ_COMBO] = COMBO(hebq_combo, HEB_LANG),
-    // [ESCQ_COMBO] = COMBO(escq_combo, KC_ESC),
     [TABQ_COMBO] = COMBO(tabq_combo, KC_TAB),
-    // [ENTQ_COMBO] = COMBO(entq_combo, KC_ENT),
     [DELQ_COMBO] = COMBO(delq_combo, KC_DEL),
     [BSPCQ_COMBO] = COMBO(bspcq_combo, KC_BSPC),
     [SAVEQ_COMBO] = COMBO(saveq_combo, VIM_SAVE),
@@ -324,46 +312,36 @@ void delete_word(void) {
   }
 }
 
-#define CASE(keycode, key_pressed_action, key_released_action)   \
+#define CASE_MOD_TAP_KEY_HOLD(keycode, key_hold_pressed_action, key_hold_released_action) \
+  case (keycode):                                                                         \
+    if (!record->tap.count) {                                                             \
+      if (record->event.pressed) {                                                        \
+        key_hold_pressed_action;                                                          \
+      } else {                                                                            \
+        key_hold_released_action;                                                         \
+      }                                                                                   \
+      return false;                                                                       \
+    }                                                                                     \
+    break;
+
+#define CASE(keycode, key_pressed_action, key_released_action)  \
   case (keycode):                                               \
     if (record->event.pressed) {                                \
       key_pressed_action;                                       \
     } else {                                                    \
       key_released_action;                                      \
     }                                                           \
-    return false;                                               \
-    break;
+    return false;
 
 #define CASE_PRESSED(keycode, key_pressed_action) CASE(keycode, key_pressed_action, {});
 
-#define CASE_MOD_TAP_KEY(keycode, tap_action, mod_off_action) \
-  CASE(keycode, {                                  \
-    keycode ## _TIMER = timer_read();                         \
-    IS_ ## keycode ## _ACTIVE = true;                         \
-  }, {                                                        \
-    if(IS_ ## keycode ## _MOD_ACTIVE) {                       \
-      mod_off_action;                          		      \
-    } else if (IS_ ## keycode ## _ACTIVE) {                   \
-      tap_action;                                             \
-    }                                                         \
-    IS_ ## keycode ## _MOD_ACTIVE = false; 		      \
-    IS_ ## keycode ## _ACTIVE = false;                        \
-  });
-
-#define MOD_TAP_KEY(keycode, tap_action, mod_on_action, mod_off_action) \
-uint16_t keycode ## _TIMER = 0;                                 	\
-bool IS_ ## keycode ## _ACTIVE = false; 		                \
-bool IS_ ## keycode ## _MOD_ACTIVE = false;
-#include "mod_tap_keys.h"
-#undef MOD_TAP_KEY
-
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
-  #ifdef OLED_ENABLE
+  // #ifdef OLED_ENABLE
   // if (record->event.pressed) {
     // set_keylog(keycode, record);
   // }
-  #endif //OLED_ENABLE
+  // #endif //OLED_ENABLE
 
   switch (keycode) {
     CASE_PRESSED(EN_LANG, set_english_language());
@@ -374,35 +352,23 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     CASE_PRESSED(CHNGE_OS, {config.is_macos ^= 1; eeconfig_update_user(config.raw);});
     CASE_PRESSED(DELETE_WORD, delete_word());
-
-    #define MOD_TAP_KEY(keycode, tap_action, mod_on_action, mod_off_action) \
-    CASE_MOD_TAP_KEY(keycode, tap_action, mod_off_action);
-    #include "mod_tap_keys.h"
-    #undef MOD_TAP_KEY
+    CASE_MOD_TAP_KEY_HOLD(F_CTLQ, {layer_on(_DVORAK); register_code(KC_LCTL);}, {layer_off(_DVORAK); unregister_code(KC_LCTL);});
+    CASE_MOD_TAP_KEY_HOLD(S_GUIQ, {layer_on(_DVORAK); register_code(KC_LGUI);}, {layer_off(_DVORAK); unregister_code(KC_LGUI);});
+    CASE_MOD_TAP_KEY_HOLD(L_GUIQ, {layer_on(_DVORAK); register_code(KC_RGUI);}, {layer_off(_DVORAK); unregister_code(KC_RGUI);});
+    CASE_MOD_TAP_KEY_HOLD(J_CTLQ, {layer_on(_DVORAK); register_code(KC_RCTL);}, {layer_off(_DVORAK); unregister_code(KC_RCTL);});
+    CASE_MOD_TAP_KEY_HOLD(A_ALTQ, {layer_on(_DVORAK); register_code(KC_LALT);}, {layer_off(_DVORAK); unregister_code(KC_LALT);});
+    CASE_MOD_TAP_KEY_HOLD(SCLN_Q, {layer_on(_DVORAK); register_code(KC_RALT);}, {layer_off(_DVORAK); unregister_code(KC_RALT);});
   }
-
-  #define MOD_TAP_KEY(keycode, tap_action, mod_on_action, mod_off_action) \
-  if (IS_ ## keycode ## _ACTIVE && !IS_ ## keycode ## _MOD_ACTIVE) {      \
-    if (timer_elapsed(keycode ## _TIMER) <= TAPPING_TERM) {               \
-      tap_action;                                                         \
-      IS_ ## keycode ## _ACTIVE = false;                                  \
-    }                                                    		  \
-  }
-  #include "mod_tap_keys.h"
-  #undef MOD_TAP_KEY
-
   return true;
 }
 
-void matrix_scan_user(void) {
-  #define MOD_TAP_KEY(keycode, tap_action, mod_on_action, mod_off_action) \
-  if (IS_ ## keycode ## _ACTIVE) {                                        \
-    if (timer_elapsed(keycode ## _TIMER) > TAPPING_TERM) {                \
-      mod_on_action;                                                      \
-      IS_ ## keycode ## _MOD_ACTIVE = true;                               \
-    }                                                    		  \
+bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case RAISE:
+    case LOWER:
+      return true;
+    default:
+      return false;
   }
-  #include "mod_tap_keys.h"
-  #undef MOD_TAP_KEY
 }
 
