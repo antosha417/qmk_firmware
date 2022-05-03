@@ -416,6 +416,21 @@ combo_t key_combos[] = {
     [BSPCWQ_COMBO] = COMBO(bspcwq_combo, A(KC_BSPC)),
 };
 
+uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case RAISE:
+        case LOWER:
+            return 50;
+        case A_ALT:
+        case S_ALT:
+        case A_ALTQ:
+        case SCLN_Q:
+            return 300;
+        default:
+            return TAPPING_TERM;
+    }
+}
+
 bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case RAISE:
