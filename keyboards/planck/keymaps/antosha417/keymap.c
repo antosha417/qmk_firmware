@@ -420,7 +420,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case RAISE:
         case LOWER:
-            return 50;
+            return 10;
         case A_ALT:
         case S_ALT:
         case A_ALTQ:
