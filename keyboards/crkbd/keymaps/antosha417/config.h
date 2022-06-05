@@ -2,15 +2,11 @@
 // SPDX-License-Identifier: GPL-2.0-or-later
 #pragma once
 
-
 /* Select hand configuration */
 
 //#define MASTER_LEFT
 // #define MASTER_RIGHT
 #define EE_HANDS
-
-
-#define TAPPING_FORCE_HOLD
 
 #ifdef RGBLIGHT_ENABLE
     #undef RGBLED_NUM
@@ -31,10 +27,15 @@
     #define RGBLIGHT_VAL_STEP 17
 #endif
 
+#define TAPPING_FORCE_HOLD
+// how match to hold to activate mod tap key
 #define TAPPING_TERM 150
+// tapping term can be set up per key
 #define TAPPING_TERM_PER_KEY
-#define IGNORE_MOD_TAP_INTERRUPT
-#define RETRO_TAPPING_PER_KEY
-#define PERMISSIVE_HOLD
-#define COMBO_TERM 30
+// immediately select the hold action when another key is pressed, configured per key
+#define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 
+#define IGNORE_MOD_TAP_INTERRUPT
+#define PERMISSIVE_HOLD
+
+#define COMBO_TERM 30

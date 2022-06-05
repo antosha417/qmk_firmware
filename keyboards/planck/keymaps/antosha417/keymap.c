@@ -7,10 +7,10 @@
 enum layers {
   _QWERTY,
   _DVORAK,
-  _LOWER,
-  _RAISE,
-  _TOP,
-  _BOTTOM,
+  _SYMBOLS,
+  _NUMS,
+  _RIGHT,
+  _LEFT,
   _ADJUST
 };
 
@@ -36,10 +36,10 @@ enum keycodes {
   VIM_SAVE,
 };
 
-#define LOWER LT(_LOWER, KC_ENT)
-#define RAISE LT(_RAISE, KC_ESC)
-#define TOP MO(_TOP)
-#define BOTTOM MO(_BOTTOM)
+#define SYMBOLS LT(_SYMBOLS, KC_ENT)
+#define NUMS LT(_NUMS, KC_ESC)
+#define RIGHT MO(_RIGHT)
+#define LEFT MO(_LEFT)
 #define LANG  TG(_DVORAK)
 #define KC_CAD LALT(LCTL(KC_DEL))
 #define KC_CAH LALT(LCTL(KC_HOME))
@@ -47,18 +47,10 @@ enum keycodes {
 #define LSFT_SP LSFT_T(KC_SPC)
 #define RSFT_SP RSFT_T(KC_SPC)
 
-// #define E_SFT LSFT_T(KC_E)
-// #define D_SFT LSFT_T(KC_D)
-#define E_SFT KC_E
-#define D_SFT KC_D
 #define A_ALT LALT_T(KC_A)
 #define O_GUI LGUI_T(KC_O)
 #define U_CTRL LCTL_T(KC_U)
 
-// #define T_SFT RSFT_T(KC_T)
-// #define K_SFT RSFT_T(KC_K)
-#define T_SFT KC_T
-#define K_SFT KC_K
 #define S_ALT RALT_T(KC_S)
 #define N_GUI RGUI_T(KC_N)
 #define H_CTRL RCTL_T(KC_H)
@@ -80,14 +72,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * |      |   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * |      |      |      |Bottom| SPC  |Lower |Raise | SPC  | TOP  |      |      |      |
+ * |      |      |      |Bottom| SPC  |Lower |Raise | SPC  | RIGHT  |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
 [_QWERTY] = LAYOUT_planck_grid(
     _______,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    _______,
-    _______,  A_ALTQ,  S_GUIQ,  D_SFT,   F_CTLQ,  KC_G,    KC_H,    J_CTLQ,  K_SFT,   L_GUIQ,  SCLN_Q,  _______,
+    _______,  A_ALTQ,  S_GUIQ,  KC_D,    F_CTLQ,  KC_G,    KC_H,    J_CTLQ,  KC_K,    L_GUIQ,  SCLN_Q,  _______,
     _______,  KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, _______,
-    _______, _______, _______,  BOTTOM,  LSFT_SP, LOWER,   RAISE,   RSFT_SP, TOP,     _______, _______, _______
+    _______, _______, _______,  LEFT,    LSFT_SP, SYMBOLS, NUMS,    RSFT_SP, RIGHT,   _______, _______, _______
 ),
 
 /* Dvorak
@@ -102,8 +94,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * `-----------------------------------------------------------------------------------'
  */
 [_DVORAK] = LAYOUT_planck_grid(
-    _______, KC_QUOT, KC_COMM, KC_DOT,  KC_P,    KC_Y,    KC_F,    KC_G,     KC_C,    KC_R,    KC_L,    _______,
-    _______, A_ALT,   O_GUI,   E_SFT,   U_CTRL,  KC_I,    KC_D,    H_CTRL,   T_SFT,   N_GUI,  S_ALT,   _______,
+    _______, KC_QUOT, KC_COMM, KC_DOT,  KC_P,    KC_Y,    KC_F,    KC_G,     KC_C,    KC_R,    KC_L,   _______,
+    _______, A_ALT,   O_GUI,   KC_E,    U_CTRL,  KC_I,    KC_D,    H_CTRL,   KC_T,    N_GUI,  S_ALT,   _______,
     _______, KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,     KC_W,    KC_V,   KC_Z,    _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
@@ -119,7 +111,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      | RCTL |      |      |      | [{}] |      |      | PSCR | PGDN | PGUP |      |
  * `-----------------------------------------------------------------------------------'
  */
-[_LOWER] = LAYOUT_planck_grid(
+[_SYMBOLS] = LAYOUT_planck_grid(
     KC_F11,  KC_UNDS, KC_MINS,  KC_TILD, KC_PERC, KC_QUOT, _______, KC_CIRC,  KC_GRV,  KC_BSLS,  KC_PIPE, KC_MINS,
     KC_DEL,  KC_LBRC, KC_LCBR,  KC_PLUS, KC_LPRN, KC_EQL,  KC_ASTR, KC_RPRN,  KC_EXLM, KC_RCBR,  KC_RBRC, KC_BSPC,
     _______, KC_CAD,  KC_CAH,   _______, LANG,    _______, _______, _______,  _______, _______,  _______, _______,
@@ -137,14 +129,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |      | [{}] |      | Vol- | End  | Home | Vol+ |
  * `-----------------------------------------------------------------------------------'
  */
-[_RAISE] = LAYOUT_planck_grid(
+[_NUMS] = LAYOUT_planck_grid(
     KC_F11,  _______, _______, KC_DLR,  KC_AMPR, _______, KC_COLON, KC_QUES, KC_AT,   KC_HASH, KC_SLSH, KC_F12,
     _______, KC_7,    KC_5,    KC_3,    KC_1,    KC_9,    KC_0,    KC_2,    KC_4,    KC_6,    KC_8,    KC_BSPC,
     _______, KC_F7,   KC_F5,   KC_F3,   KC_F1,   KC_F9,   KC_F10,  KC_F2,   KC_F4,   KC_F6,   KC_F8,   _______,
     _______, _______, _______, _______, _______, _______, _______, _______, KC_VOLD, KC_END,  KC_HOME, KC_VOLU
 ),
 
-/* TOP
+/* RIGHT
  * ,-----------------------------------------------------------------------------------
  * |      |      |      |      |      |      |      |      |      |      |      |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -155,14 +147,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |      |      |      | [{}] |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
-[_TOP] = LAYOUT_planck_grid(
+[_RIGHT] = LAYOUT_planck_grid(
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, KC_DOWN, KC_UP,   _______, _______, _______, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 ),
 
-/* BOTTOM
+/* LEFT
  * ,-----------------------------------------------------------------------------------
  * |      |      |      |      |      |      |      |      |      |      | ->   |      |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -173,7 +165,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      | [{}] |      |      |      |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
-[_BOTTOM] = LAYOUT_planck_grid(
+[_LEFT] = LAYOUT_planck_grid(
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_RGHT, _______,
     _______, _______, _______, _______, _______, _______, _______, KC_LEFT, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, KC_VOLD, KC_VOLU, _______, _______, _______,
@@ -198,7 +190,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, MU_ON,   MU_OFF,  _______, _______, _______, _______, _______, _______, _______, _______, BRUDERSCHAFT,
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
 )
-
 };
 
 void keyboard_post_init_user(void) {
@@ -272,7 +263,7 @@ uint16_t muse_tempo = 50;
 
 bool encoder_update_user(uint8_t index, bool clockwise) {
   if (muse_mode) {
-    if (IS_LAYER_ON(_RAISE)) {
+    if (IS_LAYER_ON(_NUMS)) {
       if (clockwise) {
         muse_offset++;
       } else {
@@ -341,8 +332,8 @@ void matrix_scan_user(void) {
 
 bool music_mask_user(uint16_t keycode) {
   switch (keycode) {
-    case RAISE:
-    case LOWER:
+    case NUMS:
+    case SYMBOLS:
       return false;
     default:
       return true;
@@ -350,7 +341,7 @@ bool music_mask_user(uint16_t keycode) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
-  return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
+  return update_tri_layer_state(state, _SYMBOLS, _NUMS, _ADJUST);
 }
 
 enum combo_events {
@@ -381,8 +372,8 @@ uint16_t COMBO_LEN = COMBO_LENGTH;
 const uint16_t PROGMEM ru_combo[] = {KC_R, U_CTRL, COMBO_END};
 const uint16_t PROGMEM en_combo[] = {U_CTRL, S_ALT, COMBO_END};
 const uint16_t PROGMEM heb_combo[] = {KC_I, KC_V, COMBO_END};
-const uint16_t PROGMEM tab_combo[] = {T_SFT, A_ALT, COMBO_END};
-const uint16_t PROGMEM del_combo[] = {KC_D, E_SFT, COMBO_END};
+const uint16_t PROGMEM tab_combo[] = {KC_T, A_ALT, COMBO_END};
+const uint16_t PROGMEM del_combo[] = {KC_D, KC_E, COMBO_END};
 const uint16_t PROGMEM bspc_combo[] = {KC_C, H_CTRL, COMBO_END};
 const uint16_t PROGMEM bspcw_combo[] = {N_GUI, U_CTRL, COMBO_END};
 const uint16_t PROGMEM save_combo[] = {O_GUI, H_CTRL, COMBO_END};
@@ -390,54 +381,54 @@ const uint16_t PROGMEM save_combo[] = {O_GUI, H_CTRL, COMBO_END};
 const uint16_t PROGMEM ruq_combo[] = {KC_O, F_CTLQ, COMBO_END};
 const uint16_t PROGMEM enq_combo[] = {F_CTLQ, SCLN_Q, COMBO_END};
 const uint16_t PROGMEM hebq_combo[] = {KC_G, KC_DOT, COMBO_END};
-const uint16_t PROGMEM tabq_combo[] = {K_SFT, A_ALTQ, COMBO_END};
-const uint16_t PROGMEM delq_combo[] = {KC_H, D_SFT, COMBO_END};
+const uint16_t PROGMEM tabq_combo[] = {KC_K, A_ALTQ, COMBO_END};
+const uint16_t PROGMEM delq_combo[] = {KC_H, KC_D, COMBO_END};
 const uint16_t PROGMEM bspcq_combo[] = {KC_I, J_CTLQ, COMBO_END};
 const uint16_t PROGMEM bspcwq_combo[] = {L_GUIQ, F_CTLQ, COMBO_END};
 const uint16_t PROGMEM saveq_combo[] = {S_GUIQ, J_CTLQ, COMBO_END};
 
 combo_t key_combos[] = {
-    [RU_COMBO] = COMBO(ru_combo, RUS_LANG),
-    [EN_COMBO] = COMBO(en_combo, EN_LANG),
-    [HEB_COMBO] = COMBO(heb_combo, HEB_LANG),
-    [TAB_COMBO] = COMBO(tab_combo, KC_TAB),
-    [DEL_COMBO] = COMBO(del_combo, KC_DEL),
-    [BSPC_COMBO] = COMBO(bspc_combo, KC_BSPC),
-    [SAVE_COMBO] = COMBO(save_combo, VIM_SAVE),
-    [BSPCW_COMBO] = COMBO(bspcw_combo, A(KC_BSPC)),
+  [RU_COMBO] = COMBO(ru_combo, RUS_LANG),
+  [EN_COMBO] = COMBO(en_combo, EN_LANG),
+  [HEB_COMBO] = COMBO(heb_combo, HEB_LANG),
+  [TAB_COMBO] = COMBO(tab_combo, KC_TAB),
+  [DEL_COMBO] = COMBO(del_combo, KC_DEL),
+  [BSPC_COMBO] = COMBO(bspc_combo, KC_BSPC),
+  [SAVE_COMBO] = COMBO(save_combo, VIM_SAVE),
+  [BSPCW_COMBO] = COMBO(bspcw_combo, A(KC_BSPC)),
 
-    [RUQ_COMBO] = COMBO(ruq_combo, RUS_LANG),
-    [ENQ_COMBO] = COMBO(enq_combo, EN_LANG),
-    [HEBQ_COMBO] = COMBO(hebq_combo, HEB_LANG),
-    [TABQ_COMBO] = COMBO(tabq_combo, KC_TAB),
-    [DELQ_COMBO] = COMBO(delq_combo, KC_DEL),
-    [BSPCQ_COMBO] = COMBO(bspcq_combo, KC_BSPC),
-    [SAVEQ_COMBO] = COMBO(saveq_combo, VIM_SAVE),
-    [BSPCWQ_COMBO] = COMBO(bspcwq_combo, A(KC_BSPC)),
+  [RUQ_COMBO] = COMBO(ruq_combo, RUS_LANG),
+  [ENQ_COMBO] = COMBO(enq_combo, EN_LANG),
+  [HEBQ_COMBO] = COMBO(hebq_combo, HEB_LANG),
+  [TABQ_COMBO] = COMBO(tabq_combo, KC_TAB),
+  [DELQ_COMBO] = COMBO(delq_combo, KC_DEL),
+  [BSPCQ_COMBO] = COMBO(bspcq_combo, KC_BSPC),
+  [SAVEQ_COMBO] = COMBO(saveq_combo, VIM_SAVE),
+  [BSPCWQ_COMBO] = COMBO(bspcwq_combo, A(KC_BSPC)),
 };
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case RAISE:
-        case LOWER:
-            return 1;
-        case A_ALT:
-        case S_ALT:
-        case A_ALTQ:
-        case SCLN_Q:
-            return 300;
-        default:
-            return TAPPING_TERM;
-    }
-}
-
-bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case RAISE:
-    case LOWER:
-      return true;
+    case NUMS:
+    case SYMBOLS:
+    case A_ALT:
+    case S_ALT:
+    case A_ALTQ:
+    case SCLN_Q:
+      return TAPPING_TERM * 2;
     default:
-      return false;
+      return TAPPING_TERM;
   }
 }
 
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case NUMS:
+    case SYMBOLS:
+      // Immediately select the hold action when another key is pressed.
+      return true;
+    default:
+      // Do not select the hold action when another key is pressed.
+      return false;
+  }
+}

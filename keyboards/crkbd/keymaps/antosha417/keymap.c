@@ -15,10 +15,10 @@ user_config config;
 enum layers {
   _QWERTY,
   _DVORAK,
-  _LOWER,
-  _RAISE,
-  _TOP,
-  _BOTTOM,
+  _SYMBOLS,
+  _NUMS,
+  _RIGHT,
+  _LEFT,
 };
 
 enum keycodes {
@@ -34,10 +34,10 @@ enum keycodes {
   DELETE_WORD,
 };
 
-#define LOWER LT(_LOWER, KC_ENT)
-#define RAISE LT(_RAISE, KC_ESC)
-#define TOP MO(_TOP)
-#define BOTTOM MO(_BOTTOM)
+#define SYMBOLS LT(_SYMBOLS, KC_ENT)
+#define NUMS LT(_NUMS, KC_ESC)
+#define RIGHT MO(_RIGHT)
+#define LEFT MO(_LEFT)
 #define LANG  TG(_DVORAK)
 #define KC_CAD LALT(LCTL(KC_DEL))
 #define KC_CAH LALT(LCTL(KC_HOME))
@@ -45,18 +45,10 @@ enum keycodes {
 #define LSFT_SP LSFT_T(KC_SPC)
 #define RSFT_SP RSFT_T(KC_SPC)
 
-// #define E_SFT LSFT_T(KC_E)
-// #define D_SFT LSFT_T(KC_D)
-#define E_SFT KC_E
-#define D_SFT KC_D
 #define A_ALT LALT_T(KC_A)
 #define O_GUI LGUI_T(KC_O)
 #define U_CTRL LCTL_T(KC_U)
 
-// #define T_SFT RSFT_T(KC_T)
-// #define K_SFT RSFT_T(KC_K)
-#define T_SFT KC_T
-#define K_SFT KC_K
 #define S_ALT RALT_T(KC_S)
 #define N_GUI RGUI_T(KC_N)
 #define H_CTRL RCTL_T(KC_H)
@@ -74,11 +66,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
      KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,    KC_P, KC_BSPC,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-     KC_ESC,  A_ALTQ,  S_GUIQ,   D_SFT,  F_CTLQ,    KC_G,                         KC_H,  J_CTLQ,   K_SFT,  L_GUIQ,  SCLN_Q, KC_QUOT,
+     KC_ESC,  A_ALTQ,  S_GUIQ,    KC_D,  F_CTLQ,    KC_G,                         KC_H,  J_CTLQ,    KC_K,  L_GUIQ,  SCLN_Q, KC_QUOT,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ENT,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         BOTTOM, LSFT_SP,   LOWER,      RAISE, RSFT_SP,     TOP
+                                         LEFT, LSFT_SP, SYMBOLS,       NUMS, RSFT_SP,   RIGHT
                                     //`--------------------------'  `--------------------------'
 ),
 
@@ -86,7 +78,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
      KC_TAB, KC_QUOT, KC_COMM,  KC_DOT,    KC_P,    KC_Y,                         KC_F,    KC_G,    KC_C,    KC_R,    KC_L, KC_BSPC,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-    KC_LCTL,   A_ALT,   O_GUI,   E_SFT,  U_CTRL,    KC_I,                         KC_D,  H_CTRL,   T_SFT,   N_GUI,   S_ALT, KC_QUOT,
+    KC_LCTL,   A_ALT,   O_GUI,    KC_E,  U_CTRL,    KC_I,                         KC_D,  H_CTRL,    KC_T,   N_GUI,   S_ALT, KC_QUOT,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     KC_LSFT, KC_SCLN,    KC_Q,    KC_J,    KC_K,    KC_X,                         KC_B,    KC_M,    KC_W,    KC_V,   KC_Z,  KC_ESC,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -94,7 +86,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                     //`--------------------------'  `--------------------------'
 ),
 
-[_LOWER] = LAYOUT_split_3x6_3(
+[_SYMBOLS] = LAYOUT_split_3x6_3(
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
      KC_F11, KC_UNDS, KC_MINS, KC_TILD, KC_PERC, KC_QUOT,                      _______, KC_CIRC,  KC_GRV, KC_BSLS, KC_PIPE, KC_MINS,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -108,7 +100,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 ),
 
 
-[_RAISE] = LAYOUT_split_3x6_3(
+[_NUMS] = LAYOUT_split_3x6_3(
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
      KC_F11, _______, _______, KC_DLR,  KC_AMPR, _______,                     KC_COLON, KC_QUES,   KC_AT, KC_HASH, KC_SLSH, KC_F12,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -121,7 +113,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                     //^^^^^^^
 ),
 
-[_TOP] = LAYOUT_split_3x6_3(
+[_RIGHT] = LAYOUT_split_3x6_3(
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
     _______,CHNGE_OS, RGB_TOG, RGB_MOD, RGB_HUI, RGB_HUD,                      RGB_SAI, RGB_SAD, RGB_VAI, RGB_VAD, _______, _______,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -134,7 +126,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                                                       //^^^^^^^
 ),
 
-[_BOTTOM] = LAYOUT_split_3x6_3(
+[_LEFT] = LAYOUT_split_3x6_3(
 //,-----------------------------------------------------.                    ,-----------------------------------------------------.
     _______, _______, _______, _______, _______, _______,                      _______, _______, _______, _______, KC_RGHT, _______,
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -146,7 +138,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                     //`--------------------------'  `--------------------------'
                                     //  ^^^^^^^
 )
-
 };
 
 enum combo_events {
@@ -177,8 +168,8 @@ uint16_t COMBO_LEN = COMBO_LENGTH;
 const uint16_t PROGMEM ru_combo[] = {KC_R, U_CTRL, COMBO_END};
 const uint16_t PROGMEM en_combo[] = {U_CTRL, S_ALT, COMBO_END};
 const uint16_t PROGMEM heb_combo[] = {KC_I, KC_V, COMBO_END};
-const uint16_t PROGMEM tab_combo[] = {T_SFT, A_ALT, COMBO_END};
-const uint16_t PROGMEM del_combo[] = {KC_D, E_SFT, COMBO_END};
+const uint16_t PROGMEM tab_combo[] = {KC_T, A_ALT, COMBO_END};
+const uint16_t PROGMEM del_combo[] = {KC_D, KC_E, COMBO_END};
 const uint16_t PROGMEM bspc_combo[] = {KC_C, H_CTRL, COMBO_END};
 const uint16_t PROGMEM bspcw_combo[] = {N_GUI, U_CTRL, COMBO_END};
 const uint16_t PROGMEM save_combo[] = {O_GUI, H_CTRL, COMBO_END};
@@ -186,8 +177,8 @@ const uint16_t PROGMEM save_combo[] = {O_GUI, H_CTRL, COMBO_END};
 const uint16_t PROGMEM ruq_combo[] = {KC_O, F_CTLQ, COMBO_END};
 const uint16_t PROGMEM enq_combo[] = {F_CTLQ, SCLN_Q, COMBO_END};
 const uint16_t PROGMEM hebq_combo[] = {KC_G, KC_DOT, COMBO_END};
-const uint16_t PROGMEM tabq_combo[] = {K_SFT, A_ALTQ, COMBO_END};
-const uint16_t PROGMEM delq_combo[] = {KC_H, D_SFT, COMBO_END};
+const uint16_t PROGMEM tabq_combo[] = {KC_K, A_ALTQ, COMBO_END};
+const uint16_t PROGMEM delq_combo[] = {KC_H, KC_D, COMBO_END};
 const uint16_t PROGMEM bspcq_combo[] = {KC_I, J_CTLQ, COMBO_END};
 const uint16_t PROGMEM bspcwq_combo[] = {L_GUIQ, F_CTLQ, COMBO_END};
 const uint16_t PROGMEM saveq_combo[] = {S_GUIQ, J_CTLQ, COMBO_END};
@@ -230,17 +221,17 @@ void oled_render_layer_state(void) {
       case _DVORAK:
         oled_write_ln_P(PSTR("dvorak"), false);
         break;
-      case _LOWER:
-        oled_write_ln_P(PSTR("lower"), false);
+      case _SYMBOLS:
+        oled_write_ln_P(PSTR("symbols"), false);
         break;
-      case _RAISE:
-        oled_write_ln_P(PSTR("raise"), false);
+      case _NUMS:
+        oled_write_ln_P(PSTR("numbers"), false);
         break;
-      case _TOP:
-        oled_write_ln_P(PSTR("top"), false);
+      case _RIGHT:
+        oled_write_ln_P(PSTR("right"), false);
         break;
-      case _BOTTOM:
-        oled_write_ln_P(PSTR("bottom"), false);
+      case _LEFT:
+        oled_write_ln_P(PSTR("left"), false);
         break;
       default:
         oled_write_ln_P(PSTR("unknown"), false);
@@ -337,12 +328,6 @@ void delete_word(void) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
-  // #ifdef OLED_ENABLE
-  // if (record->event.pressed) {
-    // set_keylog(keycode, record);
-  // }
-  // #endif //OLED_ENABLE
-
   switch (keycode) {
     CASE_PRESSED(EN_LANG, set_english_language());
     CASE_PRESSED(RUS_LANG, set_russian_language());
@@ -364,27 +349,27 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-    switch (keycode) {
-        case RAISE:
-        case LOWER:
-            return TAPPING_TERM - 50;
-        case A_ALT:
-        case S_ALT:
-        case A_ALTQ:
-        case SCLN_Q:
-            return 300;
-        default:
-            return TAPPING_TERM;
-    }
-}
-
-bool get_retro_tapping(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case RAISE:
-    case LOWER:
-      return true;
+    case NUMS:
+    case SYMBOLS:
+    case A_ALT:
+    case S_ALT:
+    case A_ALTQ:
+    case SCLN_Q:
+      return TAPPING_TERM * 2;
     default:
-      return false;
+      return TAPPING_TERM;
   }
 }
 
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case NUMS:
+    case SYMBOLS:
+      // Immediately select the hold action when another key is pressed.
+      return true;
+    default:
+      // Do not select the hold action when another key is pressed.
+      return false;
+  }
+}

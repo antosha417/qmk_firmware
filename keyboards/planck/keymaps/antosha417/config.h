@@ -31,7 +31,18 @@
 #define TAPPING_TERM 150
 #define TAPPING_TERM_PER_KEY
 #define IGNORE_MOD_TAP_INTERRUPT
-#define RETRO_TAPPING_PER_KEY
 #define PERMISSIVE_HOLD
 #define COMBO_TERM 30
 
+#define TAPPING_FORCE_HOLD
+// how match to hold to activate mod tap key
+#define TAPPING_TERM 150
+// tapping term can be set up per key
+#define TAPPING_TERM_PER_KEY
+// immediately select the hold action when another key is pressed, configured per key
+#define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
+
+#define IGNORE_MOD_TAP_INTERRUPT
+#define PERMISSIVE_HOLD
+
+#define COMBO_TERM 30
