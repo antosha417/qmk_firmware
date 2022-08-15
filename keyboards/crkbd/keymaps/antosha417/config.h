@@ -46,3 +46,7 @@
 #define PERMISSIVE_HOLD
 
 #define COMBO_TERM 30
+
+#define LUNA
+#define OLED_TIMEOUT 60000
+#define OLED_BRIGHTNESS 12

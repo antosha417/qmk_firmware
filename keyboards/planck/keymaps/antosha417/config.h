@@ -28,12 +28,6 @@
 // Most tactile encoders have detents every 4 stages
 #define ENCODER_RESOLUTION 4
 
-#define TAPPING_TERM 150
-#define TAPPING_TERM_PER_KEY
-#define IGNORE_MOD_TAP_INTERRUPT
-#define PERMISSIVE_HOLD
-#define COMBO_TERM 30
-
 #define TAPPING_FORCE_HOLD
 // how match to hold to activate mod tap key
 #define TAPPING_TERM 150
