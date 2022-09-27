@@ -28,15 +28,22 @@
 // Most tactile encoders have detents every 4 stages
 #define ENCODER_RESOLUTION 4
 
-#define TAPPING_FORCE_HOLD
+// dont repeat many times the key on double press and hold
+// #define TAPPING_FORCE_HOLD
+// it also has per key option
+#define TAPPING_FORCE_HOLD_PER_KEY
+
 // how match to hold to activate mod tap key
 #define TAPPING_TERM 150
 // tapping term can be set up per key
 #define TAPPING_TERM_PER_KEY
+
 // immediately select the hold action when another key is pressed, configured per key
 #define HOLD_ON_OTHER_KEY_PRESS_PER_KEY
 
 #define IGNORE_MOD_TAP_INTERRUPT
+// activate mod tap key mod action
+// even when nested tap happened faster than tapping term
 #define PERMISSIVE_HOLD
 
 #define COMBO_TERM 30

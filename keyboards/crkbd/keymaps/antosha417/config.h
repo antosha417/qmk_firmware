@@ -30,7 +30,7 @@
 // dont repeat many times the key on double press and hold
 // #define TAPPING_FORCE_HOLD
 // it also has per key option
-// #define TAPPING_FORCE_HOLD_PER_KEY
+#define TAPPING_FORCE_HOLD_PER_KEY
 
 // how match to hold to activate mod tap key
 #define TAPPING_TERM 150

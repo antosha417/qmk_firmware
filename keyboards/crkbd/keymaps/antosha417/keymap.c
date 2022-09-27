@@ -133,7 +133,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
     _______, _______, _______, _______, _______, _______,                      _______, KC_VOLD, KC_VOLU, _______, _______, _______,
 //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                        _______, _______, _______,    _______, _______, _______
+                                        _______, _______, _______,    _______, _______, KC_BSPC
                                     //`--------------------------'  `--------------------------'
                                     //  ^^^^^^^
 )
@@ -146,7 +146,6 @@ enum combo_events {
   HEB_COMBO,
   TAB_COMBO,
   DEL_COMBO,
-  BSPCW_COMBO,
 
   // combos for qwerty layer
   RUQ_COMBO,
@@ -154,7 +153,6 @@ enum combo_events {
   HEBQ_COMBO,
   TABQ_COMBO,
   DELQ_COMBO,
-  BSPCWQ_COMBO,
 
   COMBO_LENGTH
 };
@@ -165,14 +163,12 @@ const uint16_t PROGMEM en_combo[] = {U_CTRL, S_ALT, COMBO_END};
 const uint16_t PROGMEM heb_combo[] = {KC_I, KC_V, COMBO_END};
 const uint16_t PROGMEM tab_combo[] = {KC_T, A_ALT, COMBO_END};
 const uint16_t PROGMEM del_combo[] = {KC_D, KC_E, COMBO_END};
-const uint16_t PROGMEM bspcw_combo[] = {KC_C, H_CTRL, COMBO_END};
 
 const uint16_t PROGMEM ruq_combo[] = {KC_O, F_CTLQ, COMBO_END};
 const uint16_t PROGMEM enq_combo[] = {F_CTLQ, SCLN_Q, COMBO_END};
 const uint16_t PROGMEM hebq_combo[] = {KC_G, KC_DOT, COMBO_END};
 const uint16_t PROGMEM tabq_combo[] = {KC_K, A_ALTQ, COMBO_END};
 const uint16_t PROGMEM delq_combo[] = {KC_H, KC_D, COMBO_END};
-const uint16_t PROGMEM bspcwq_combo[] = {KC_I, J_CTLQ, COMBO_END};
 
 combo_t key_combos[] = {
     [RU_COMBO] = COMBO(ru_combo, RUS_LANG),
@@ -180,14 +176,12 @@ combo_t key_combos[] = {
     [HEB_COMBO] = COMBO(heb_combo, HEB_LANG),
     [TAB_COMBO] = COMBO(tab_combo, KC_TAB),
     [DEL_COMBO] = COMBO(del_combo, KC_DEL),
-    [BSPCW_COMBO] = COMBO(bspcw_combo, DELETE_WORD),
 
     [RUQ_COMBO] = COMBO(ruq_combo, RUS_LANG),
     [ENQ_COMBO] = COMBO(enq_combo, EN_LANG),
     [HEBQ_COMBO] = COMBO(hebq_combo, HEB_LANG),
     [TABQ_COMBO] = COMBO(tabq_combo, KC_TAB),
     [DELQ_COMBO] = COMBO(delq_combo, KC_DEL),
-    [BSPCWQ_COMBO] = COMBO(bspcwq_combo, DELETE_WORD),
 };
 
 
@@ -276,14 +270,23 @@ void delete_word(void) {
   case (keycode):                                                                         \
     if (!record->tap.count) {                                                             \
       PRESS_OR_RELEASE(key_hold_pressed_action, key_hold_released_action)                 \
-      return false;                                                                       \
+      passthrough = false;                                                                \
     }                                                                                     \
     break;
 
-#define CASE(keycode, key_pressed_action, key_released_action)  \
-  case (keycode):                                               \
-    PRESS_OR_RELEASE(key_pressed_action, key_released_action)   \
-    return false;
+#define CASE_MOD_TAP_KEY_TAP(keycode, key_tap) \
+  case (keycode):                              \
+    if (record->tap.count) {                   \
+      PRESS_OR_RELEASE(key_tap, {})            \
+      passthrough = false;                     \
+    }                                          \
+    break;
+
+#define CASE(keycode, key_pressed_action, key_released_action) \
+  case (keycode):                                              \
+    PRESS_OR_RELEASE(key_pressed_action, key_released_action)  \
+    passthrough = false;                                       \
+    break;
 
 #define CASE_PRESSED(keycode, key_pressed_action) CASE(keycode, key_pressed_action, {});
 
@@ -297,14 +300,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   luna_update_keypress_timer();
   #endif
 
+  bool passthrough = true;
   switch (keycode) {
     CASE_PRESSED(EN_LANG, set_english_language());
     CASE_PRESSED(RUS_LANG, set_russian_language());
     CASE_PRESSED(HEB_LANG, set_hebrew_language());
 
     CASE_PRESSED(CHNGE_OS, {config.is_win ^= 1; eeconfig_update_user(config.raw);});
-    CASE_PRESSED(DELETE_WORD, delete_word());
-    CASE_MOD_TAP_KEY_HOLD(RIGHT, {layer_on(_RIGHT);}, {layer_off(_RIGHT);});
+    CASE_MOD_TAP_KEY_TAP(RIGHT, delete_word());
     CASE_MOD_TAP_KEY_HOLD(F_CTLQ, {layer_on(_DVORAK); register_code(KC_LCTL);}, {layer_off(_DVORAK); unregister_code(KC_LCTL);});
     CASE_MOD_TAP_KEY_HOLD(S_GUIQ, {layer_on(_DVORAK); register_code(KC_LGUI);}, {layer_off(_DVORAK); unregister_code(KC_LGUI);});
     CASE_MOD_TAP_KEY_HOLD(L_GUIQ, {layer_on(_DVORAK); register_code(KC_RGUI);}, {layer_off(_DVORAK); unregister_code(KC_RGUI);});
@@ -317,9 +320,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     PEEK(RSFT_SP, luna_jump(), luna_stop_jumping());
     #endif
   }
-  return true;
+  return passthrough;
 }
-
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
@@ -346,5 +348,15 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
     default:
       // Do not select the hold action when another key is pressed.
       return false;
+  }
+}
+
+bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    // Select hold action when key is held after tapping it. Istead of repeating the key.
+    case SYMBOLS:
+      return true;
+    default:
+        return false;
   }
 }

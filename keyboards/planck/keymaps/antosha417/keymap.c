@@ -36,13 +36,14 @@ enum keycodes {
 };
 
 #define SYMBOLS LT(_SYMBOLS, KC_ENT)
-#define NUMS    LT(_NUMS, KC_ESC)
-#define RIGHT   LT(_RIGHT, KC_BSPC)
-#define LEFT    LT(_LEFT, KC_TAB)
-#define LANG    TG(_DVORAK)
+#define NUMS    LT(_NUMS,    KC_ESC)
+#define RIGHT   LT(_RIGHT,   KC_BSPC)
+#define LEFT    LT(_LEFT,    KC_TAB)
 
 #define LSFT_SP LSFT_T(KC_SPC)
 #define RSFT_SP RSFT_T(KC_SPC)
+
+#define LANG TG(_DVORAK)
 
 #define A_ALT LALT_T(KC_A)
 #define O_GUI LGUI_T(KC_O)
@@ -52,6 +53,7 @@ enum keycodes {
 #define N_GUI RGUI_T(KC_N)
 #define H_CTRL RCTL_T(KC_H)
 
+// I use LT(0) to be able to override hold action. Layer 0 is always active
 #define F_CTLQ LT(0, KC_F)
 #define S_GUIQ LT(0, KC_S)
 #define L_GUIQ LT(0, KC_L)
@@ -166,7 +168,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, KC_RGHT, _______,
     _______, _______, _______, _______, _______, _______, KC_PGDN, KC_LEFT, _______, _______, _______, _______,
     _______, _______, _______, _______, _______, _______, _______, KC_VOLD, KC_VOLU, _______, _______, _______,
-    _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______
+    _______, _______, _______, _______, _______, _______, _______, _______, KC_BSPC, _______, _______, _______
 ),
 
 /* Adjust (Lower + Raise)
@@ -207,30 +209,47 @@ void set_hebrew_language(void) {
     SEND_STRING(SS_LSFT(SS_LCTL(SS_LGUI(SS_TAP(X_3)))));
 }
 
+void delete_word(void) {
+  tap_code16(A(KC_BSPC));
+}
+
+#define PRESS_OR_RELEASE(key_pressed_action, key_released_action) \
+  if (record->event.pressed) {                                    \
+    key_pressed_action;                                           \
+  } else {                                                        \
+    key_released_action;                                          \
+  }
+
 #define CASE_MOD_TAP_KEY_HOLD(keycode, key_hold_pressed_action, key_hold_released_action) \
   case (keycode):                                                                         \
     if (!record->tap.count) {                                                             \
-      if (record->event.pressed) {                                                        \
-        key_hold_pressed_action;                                                          \
-      } else {                                                                            \
-        key_hold_released_action;                                                         \
-      }                                                                                   \
-      return false;                                                                       \
+      PRESS_OR_RELEASE(key_hold_pressed_action, key_hold_released_action)                 \
+      passthrough = false;                                                                \
     }                                                                                     \
-    break;                                                                                \
+    break;
 
-#define CASE(keycode, key_pressed_action, key_released_action)  \
-  case (keycode):                                               \
-    if (record->event.pressed) {                                \
-      key_pressed_action;                                       \
-    } else {                                                    \
-      key_released_action;                                      \
-    }                                                           \
-    return false;
+#define CASE_MOD_TAP_KEY_TAP(keycode, key_tap) \
+  case (keycode):                              \
+    if (record->tap.count) {                   \
+      PRESS_OR_RELEASE(key_tap, {})            \
+      passthrough = false;                     \
+    }                                          \
+    break;
+
+#define CASE(keycode, key_pressed_action, key_released_action) \
+  case (keycode):                                              \
+    PRESS_OR_RELEASE(key_pressed_action, key_released_action)  \
+    passthrough = false;                                       \
+    break;
 
 #define CASE_PRESSED(keycode, key_pressed_action) CASE(keycode, key_pressed_action, {});
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  #if defined OLED_ENABLE && defined LUNA
+  luna_update_keypress_timer();
+  #endif
+
+  bool passthrough = true;
   switch (keycode) {
     CASE_PRESSED(BRUDERSCHAFT, PLAY_SONG(USSR_SONG));
 
@@ -238,6 +257,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     CASE_PRESSED(RUS_LANG, set_russian_language());
     CASE_PRESSED(HEB_LANG, set_hebrew_language());
 
+    CASE_MOD_TAP_KEY_TAP(RIGHT, delete_word());
     CASE_MOD_TAP_KEY_HOLD(F_CTLQ, {layer_on(_DVORAK); register_code(KC_LCTL);}, {layer_off(_DVORAK); unregister_code(KC_LCTL);});
     CASE_MOD_TAP_KEY_HOLD(S_GUIQ, {layer_on(_DVORAK); register_code(KC_LGUI);}, {layer_off(_DVORAK); unregister_code(KC_LGUI);});
     CASE_MOD_TAP_KEY_HOLD(L_GUIQ, {layer_on(_DVORAK); register_code(KC_RGUI);}, {layer_off(_DVORAK); unregister_code(KC_RGUI);});
@@ -245,8 +265,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     CASE_MOD_TAP_KEY_HOLD(A_ALTQ, {layer_on(_DVORAK); register_code(KC_LALT);}, {layer_off(_DVORAK); unregister_code(KC_LALT);});
     CASE_MOD_TAP_KEY_HOLD(SCLN_Q, {layer_on(_DVORAK); register_code(KC_RALT);}, {layer_off(_DVORAK); unregister_code(KC_RALT);});
   }
-
-  return true;
+  return passthrough;
 }
 
 bool muse_mode = false;
@@ -254,39 +273,6 @@ uint8_t last_muse_note = 0;
 uint16_t muse_counter = 0;
 uint8_t muse_offset = 70;
 uint16_t muse_tempo = 50;
-
-bool encoder_update_user(uint8_t index, bool clockwise) {
-  if (muse_mode) {
-    if (IS_LAYER_ON(_NUMS)) {
-      if (clockwise) {
-        muse_offset++;
-      } else {
-        muse_offset--;
-      }
-    } else {
-      if (clockwise) {
-        muse_tempo+=1;
-      } else {
-        muse_tempo-=1;
-      }
-    }
-  } else {
-    if (clockwise) {
-      #ifdef MOUSEKEY_ENABLE
-        tap_code(KC_MS_WH_DOWN);
-      #else
-        tap_code(KC_PGDN);
-      #endif
-    } else {
-      #ifdef MOUSEKEY_ENABLE
-        tap_code(KC_MS_WH_UP);
-      #else
-        tap_code(KC_PGUP);
-      #endif
-    }
-  }
-  return false;
-}
 
 bool dip_switch_update_user(uint8_t index, bool active) {
   switch (index) {
@@ -343,19 +329,13 @@ enum combo_events {
   RU_COMBO,
   EN_COMBO,
   HEB_COMBO,
-  TAB_COMBO,
   DEL_COMBO,
-  BSPC_COMBO,
-  BSPCW_COMBO,
 
   // combos for qwerty layer
   RUQ_COMBO,
   ENQ_COMBO,
   HEBQ_COMBO,
-  TABQ_COMBO,
   DELQ_COMBO,
-  BSPCQ_COMBO,
-  BSPCWQ_COMBO,
 
   COMBO_LENGTH
 };
@@ -364,35 +344,23 @@ uint16_t COMBO_LEN = COMBO_LENGTH;
 const uint16_t PROGMEM ru_combo[] = {KC_R, U_CTRL, COMBO_END};
 const uint16_t PROGMEM en_combo[] = {U_CTRL, S_ALT, COMBO_END};
 const uint16_t PROGMEM heb_combo[] = {KC_I, KC_V, COMBO_END};
-const uint16_t PROGMEM tab_combo[] = {KC_T, A_ALT, COMBO_END};
 const uint16_t PROGMEM del_combo[] = {KC_D, KC_E, COMBO_END};
-const uint16_t PROGMEM bspc_combo[] = {KC_C, H_CTRL, COMBO_END};
-const uint16_t PROGMEM bspcw_combo[] = {N_GUI, U_CTRL, COMBO_END};
 
 const uint16_t PROGMEM ruq_combo[] = {KC_O, F_CTLQ, COMBO_END};
 const uint16_t PROGMEM enq_combo[] = {F_CTLQ, SCLN_Q, COMBO_END};
 const uint16_t PROGMEM hebq_combo[] = {KC_G, KC_DOT, COMBO_END};
-const uint16_t PROGMEM tabq_combo[] = {KC_K, A_ALTQ, COMBO_END};
 const uint16_t PROGMEM delq_combo[] = {KC_H, KC_D, COMBO_END};
-const uint16_t PROGMEM bspcq_combo[] = {KC_I, J_CTLQ, COMBO_END};
-const uint16_t PROGMEM bspcwq_combo[] = {L_GUIQ, F_CTLQ, COMBO_END};
 
 combo_t key_combos[] = {
   [RU_COMBO] = COMBO(ru_combo, RUS_LANG),
   [EN_COMBO] = COMBO(en_combo, EN_LANG),
   [HEB_COMBO] = COMBO(heb_combo, HEB_LANG),
-  [TAB_COMBO] = COMBO(tab_combo, KC_TAB),
   [DEL_COMBO] = COMBO(del_combo, KC_DEL),
-  [BSPC_COMBO] = COMBO(bspc_combo, KC_BSPC),
-  [BSPCW_COMBO] = COMBO(bspcw_combo, A(KC_BSPC)),
 
   [RUQ_COMBO] = COMBO(ruq_combo, RUS_LANG),
   [ENQ_COMBO] = COMBO(enq_combo, EN_LANG),
   [HEBQ_COMBO] = COMBO(hebq_combo, HEB_LANG),
-  [TABQ_COMBO] = COMBO(tabq_combo, KC_TAB),
   [DELQ_COMBO] = COMBO(delq_combo, KC_DEL),
-  [BSPCQ_COMBO] = COMBO(bspcq_combo, KC_BSPC),
-  [BSPCWQ_COMBO] = COMBO(bspcwq_combo, A(KC_BSPC)),
 };
 
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
@@ -400,6 +368,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     case NUMS:
     case SYMBOLS:
     case LEFT:
+    case RIGHT:
     case A_ALT:
     case S_ALT:
     case A_ALTQ:
@@ -421,3 +390,14 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
       return false;
   }
 }
+
+bool get_tapping_force_hold(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    // Select hold action when key is held after tapping it. Istead of repeating the key.
+    case SYMBOLS:
+      return true;
+    default:
+        return false;
+  }
+}
+
