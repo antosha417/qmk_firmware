@@ -25,9 +25,10 @@ enum layers {
 enum keycodes {
   QWERTY = SAFE_RANGE,
 
-  RUS_LANG,
+  RU_LANG,
   EN_LANG,
-  HEB_LANG,
+  HE_LANG,
+  BY_LANG,
 
   CHNGE_OS,
   DELETE_WORD,
@@ -158,28 +159,28 @@ enum combo_events {
 };
 uint16_t COMBO_LEN = COMBO_LENGTH;
 
-const uint16_t PROGMEM ru_combo[] = {KC_R, U_CTRL, COMBO_END};
-const uint16_t PROGMEM en_combo[] = {U_CTRL, S_ALT, COMBO_END};
+const uint16_t PROGMEM ru_combo[] = {SYMBOLS, KC_W, COMBO_END};
+const uint16_t PROGMEM en_combo[] = {SYMBOLS, KC_M, COMBO_END};
 const uint16_t PROGMEM heb_combo[] = {KC_I, KC_V, COMBO_END};
 const uint16_t PROGMEM tab_combo[] = {KC_T, A_ALT, COMBO_END};
 const uint16_t PROGMEM del_combo[] = {KC_D, KC_E, COMBO_END};
 
-const uint16_t PROGMEM ruq_combo[] = {KC_O, F_CTLQ, COMBO_END};
-const uint16_t PROGMEM enq_combo[] = {F_CTLQ, SCLN_Q, COMBO_END};
+const uint16_t PROGMEM ruq_combo[] = {SYMBOLS, KC_COMM, COMBO_END};
+const uint16_t PROGMEM enq_combo[] = {SYMBOLS, KC_M, COMBO_END};
 const uint16_t PROGMEM hebq_combo[] = {KC_G, KC_DOT, COMBO_END};
 const uint16_t PROGMEM tabq_combo[] = {KC_K, A_ALTQ, COMBO_END};
 const uint16_t PROGMEM delq_combo[] = {KC_H, KC_D, COMBO_END};
 
 combo_t key_combos[] = {
-    [RU_COMBO] = COMBO(ru_combo, RUS_LANG),
+    [RU_COMBO] = COMBO(ru_combo, RU_LANG),
     [EN_COMBO] = COMBO(en_combo, EN_LANG),
-    [HEB_COMBO] = COMBO(heb_combo, HEB_LANG),
+    [HEB_COMBO] = COMBO(heb_combo, HE_LANG),
     [TAB_COMBO] = COMBO(tab_combo, KC_TAB),
     [DEL_COMBO] = COMBO(del_combo, KC_DEL),
 
-    [RUQ_COMBO] = COMBO(ruq_combo, RUS_LANG),
+    [RUQ_COMBO] = COMBO(ruq_combo, RU_LANG),
     [ENQ_COMBO] = COMBO(enq_combo, EN_LANG),
-    [HEBQ_COMBO] = COMBO(hebq_combo, HEB_LANG),
+    [HEBQ_COMBO] = COMBO(hebq_combo, HE_LANG),
     [TABQ_COMBO] = COMBO(tabq_combo, KC_TAB),
     [DELQ_COMBO] = COMBO(delq_combo, KC_DEL),
 };
@@ -251,6 +252,11 @@ void set_hebrew_language(void) {
   tap_code16(LSFT(LCTL(LGUI(KC_3))));
 }
 
+void set_belarusian_language(void) {
+  layer_off(_DVORAK);
+  tap_code16(LSFT(LCTL(LGUI(KC_4))));
+}
+
 void delete_word(void) {
   if (config.is_win) {
     tap_code16(C(KC_BSPC));
@@ -303,8 +309,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   bool passthrough = true;
   switch (keycode) {
     CASE_PRESSED(EN_LANG, set_english_language());
-    CASE_PRESSED(RUS_LANG, set_russian_language());
-    CASE_PRESSED(HEB_LANG, set_hebrew_language());
+    CASE_PRESSED(RU_LANG, set_russian_language());
+    CASE_PRESSED(HE_LANG, set_hebrew_language());
+    CASE_PRESSED(BY_LANG, set_belarusian_language());
 
     CASE_PRESSED(CHNGE_OS, {config.is_win ^= 1; eeconfig_update_user(config.raw);});
     CASE_MOD_TAP_KEY_TAP(RIGHT, delete_word());
